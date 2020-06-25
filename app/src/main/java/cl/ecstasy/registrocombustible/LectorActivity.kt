@@ -38,6 +38,8 @@ class LectorActivity : AppCompatActivity() {
     var chofer= ""
     var vehiculo = ""
     var combustible= ""
+    var combustible2 = ""
+    var valorGPS = ""
     var odometro = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,6 +57,10 @@ class LectorActivity : AppCompatActivity() {
             {
                 this.combustible = type.getStringExtra("combustible")
             }
+            if(type.getStringExtra("combustible2") != null)
+            {
+                this.combustible2 = type.getStringExtra("combustible2")
+            }
             if(type.getStringExtra("odometro") != null)
             {
                 this.odometro = type.getStringExtra("odometro")
@@ -66,6 +72,10 @@ class LectorActivity : AppCompatActivity() {
             if(type.getStringExtra("vehiculo") != null)
             {
                 this.vehiculo = type.getStringExtra("vehiculo")
+            }
+            if(type.getStringExtra("valorGPS") != null)
+            {
+                this.valorGPS = type.getStringExtra("valorGPS")
             }
 
 
@@ -158,9 +168,11 @@ class LectorActivity : AppCompatActivity() {
                                 intent.putExtra("type", tipo)
                             intent.putExtra("valor", token)
                             intent.putExtra("combustible", combustible)
+                            intent.putExtra("combustible2", combustible2)
                             intent.putExtra("odometro", odometro)
                             intent.putExtra("chofer", chofer)
                             intent.putExtra("vehiculo", vehiculo)
+                            intent.putExtra("valorGPS", valorGPS)
                                 startActivity(intent)
 
 
