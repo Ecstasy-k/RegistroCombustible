@@ -11,6 +11,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.AsyncTask
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
@@ -21,6 +22,10 @@ import android.widget.TextView
 import com.google.android.gms.vision.Detector;
 import kotlinx.android.synthetic.main.activity_ingreso.*
 import kotlinx.android.synthetic.main.activity_lector.*
+import org.ksoap2.SoapEnvelope
+import org.ksoap2.serialization.SoapObject
+import org.ksoap2.serialization.SoapSerializationEnvelope
+import org.ksoap2.transport.HttpTransportSE
 
 
 import java.io.IOException;
@@ -34,6 +39,8 @@ class LectorActivity : AppCompatActivity() {
     private val MY_PERMISSIONS_REQUEST_CAMERA = 1
     private var token = ""
     private var tokenanterior = ""
+    val NAMESPACE = "http://tempuri.org"
+    val URL = "http://190.121.13.170:8787/ServicioRC.asmx"
     var tipo= ""
     var chofer= ""
     var vehiculo = ""
@@ -149,6 +156,14 @@ class LectorActivity : AppCompatActivity() {
 
                     // obtenemos el token
                     token = barcodes.valueAt(0).displayValue.toString()
+                    if (tipo == "1")
+                    {
+                        token = DevuelveVehiculo(token)
+                    }
+                    else if (tipo == "2")
+                    {
+                        token = DevuelveChofer(token)
+                    }
 
                     // verificamos que el token anterior no se igual al actual
                     // esto es util para evitar multiples llamadas empleando el mismo token
@@ -156,6 +171,7 @@ class LectorActivity : AppCompatActivity() {
 
                         // guardamos el ultimo token proceado
                         tokenanterior = token
+
                         Log.i("token", token)
 
                         if (URLUtil.isValidUrl(token)) {
@@ -214,6 +230,83 @@ class LectorActivity : AppCompatActivity() {
     }
 
 
+
+    public fun DevuelveVehiculo(patente: String): String{
+        // JSON CARGA PRUEBA
+        var respuestaString = ""
+        val Method_Name = "devuelveVehiculo"
+        val SOAP_ACTIONx = "$NAMESPACE/$Method_Name"
+        val request = SoapObject(NAMESPACE + "/", Method_Name)
+        request.addProperty("patente_veh", patente)
+        val envelope = SoapSerializationEnvelope(SoapEnvelope.VER11)
+        //  envelope.bodyOut = request
+        envelope.setOutputSoapObject(request)
+        envelope.dotNet = true
+
+
+        try {
+            val httptransport = HttpTransportSE(URL)
+            //  httptransport.setXmlVersionTag("<?xml version=\"1.0\" encoding=\"utf-8\"?>")
+            httptransport.call(SOAP_ACTIONx, envelope)
+
+            //   val response = envelope.bodyIn as SoapObject
+            //  respuestaString = response.getProperty(0).toString()
+            val soapPrimitive = envelope.response
+            respuestaString = soapPrimitive.toString()
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+
+        }
+        Log.d("LOG_TAG", envelope.bodyIn.toString())
+        Log.d("RespuestaString", respuestaString)
+        //-------------JSON--------------------------
+
+        //    var objeto: JSONObject = JSONObject(respuestaString)
+        // var json_array: JSONArray = JSONArray(faenitas) // objeto.optJSONArray("faenas")
+
+
+        return respuestaString
+    }
+
+
+    public fun DevuelveChofer(rut: String): String{
+        // JSON CARGA PRUEBA
+        var respuestaString = ""
+        val Method_Name = "devuelveChofer"
+        val SOAP_ACTIONx = "$NAMESPACE/$Method_Name"
+        val request = SoapObject(NAMESPACE + "/", Method_Name)
+        request.addProperty("rut", rut)
+        val envelope = SoapSerializationEnvelope(SoapEnvelope.VER11)
+        //  envelope.bodyOut = request
+        envelope.setOutputSoapObject(request)
+        envelope.dotNet = true
+
+
+        try {
+            val httptransport = HttpTransportSE(URL)
+            //  httptransport.setXmlVersionTag("<?xml version=\"1.0\" encoding=\"utf-8\"?>")
+            httptransport.call(SOAP_ACTIONx, envelope)
+
+            //   val response = envelope.bodyIn as SoapObject
+            //  respuestaString = response.getProperty(0).toString()
+            val soapPrimitive = envelope.response
+            respuestaString = soapPrimitive.toString()
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+
+        }
+        Log.d("LOG_TAG", envelope.bodyIn.toString())
+        Log.d("RespuestaString", respuestaString)
+        //-------------JSON--------------------------
+
+        //    var objeto: JSONObject = JSONObject(respuestaString)
+        // var json_array: JSONArray = JSONArray(faenitas) // objeto.optJSONArray("faenas")
+
+
+        return respuestaString
+    }
 
 
     }

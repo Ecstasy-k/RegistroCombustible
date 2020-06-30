@@ -40,7 +40,6 @@ public class IngresoActivity : AppCompatActivity() {
     val METHOD_NAME = "cargaFaenas"
     val SOAP_ACTION = NAMESPACE + "/" + METHOD_NAME
     val URL = "http://190.121.13.170:8787/ServicioRC.asmx"
-    val URL2 = "http://190.121.13.170:8787/ServicioRC.asmx/devuelveVehiculo?patente_veh=lk8890"
     val LOADER_ID = 1
     var resultFaenas = ""
 
@@ -57,7 +56,9 @@ public class IngresoActivity : AppCompatActivity() {
             this.combustible = type.getStringExtra("combustible")
             this.combustible2 = type.getStringExtra("combustible2")
             this.odometro = type.getStringExtra("odometro")
+
             this.vehiculo = type.getStringExtra("vehiculo")
+
             this.chofer = type.getStringExtra("chofer")
             this.valorGPS = type.getStringExtra("valorGPS")
         }
@@ -110,19 +111,17 @@ public class IngresoActivity : AppCompatActivity() {
 
         bt_cargar.setOnClickListener {
 
-            val toast = Toast.makeText(applicationContext, "DATOS: Combustible Inicial: " + et_combustible.getText() + ", Combustible Final: " + et_combustible2.getText() + ", Valor GPS: " + et_valorgps.getText() + ", Odómetro: " + et_odometro.getText() + ", Vehiculo: " + et_vehiculo.getText() + ", Chofer: " + et_chofer.getText() + ".....CALMATE PO LOCO", Toast.LENGTH_LONG)
-            toast.show()
+        //    val toast = Toast.makeText(applicationContext, "DATOS: Combustible Inicial: " + et_combustible.getText() + ", Combustible Final: " + et_combustible2.getText() + ", Valor GPS: " + et_valorgps.getText() + ", Odómetro: " + et_odometro.getText() + ", Vehiculo: " + et_vehiculo.getText() + ", Chofer: " + et_chofer.getText() + ".....CALMATE PO LOCO", Toast.LENGTH_LONG)
+         //   toast.show()
 
-            doAsync{
-                DevuelveVehiculo(et_odometro.getText().toString())
-
-            }.execute()
+        //    doAsync2{
+         //       DevuelveVehiculo(et_odometro.getText().toString())
+          //  }.execute()
         }
 
         doAsync {
             CargaFaena() }.execute()
     }
-
 
 
 
@@ -133,7 +132,7 @@ public class IngresoActivity : AppCompatActivity() {
         var faenitas = ""
         // JSON CARGA PRUEBA
 
-        val request = SoapObject(NAMESPACE, METHOD_NAME)
+        val request = SoapObject(NAMESPACE + "/", METHOD_NAME)
         //   request.addProperty("", "")
         val envelope = SoapSerializationEnvelope(SoapEnvelope.VER11)
         envelope.dotNet = true
@@ -151,8 +150,7 @@ public class IngresoActivity : AppCompatActivity() {
             e.printStackTrace()
 
         }
-         Log.d("LOG_TAG", envelope.bodyOut.toString())
-        Log.d("LOG_TAG", envelope.bodyIn.toString())
+
         //-------------JSON--------------------------
 
         var lista_faenas: MutableList<Faena> = ArrayList<Faena>()
@@ -163,28 +161,23 @@ public class IngresoActivity : AppCompatActivity() {
             lista_faenas.add(Faena(json_array.getJSONObject(i)))
         }
         //-----------------//JSON------------------------
-
-      //  val toast = Toast.makeText(applicationContext, faenitas, Toast.LENGTH_LONG)
-       // toast.show()
         //Lista de items para el DD list
         // PREPARAR EL DROP DOWN LIST
         val Afaenas = arrayListOf<String>()
         for (i in 0..lista_faenas.size - 1) {
             Afaenas.add(lista_faenas.get(i).nombre_faena.toString())
         }
-
         // SETEAR EL DROP DOWN LIST
-        //  val faenas = arrayOf("Faena 1", "Faena 2", "Faena 3")
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, Afaenas)
         ddFaena.setAdapter(adapter)
     }
 
-    public fun DevuelveVehiculo(patente: String) {
+    public fun DevuelveVehiculo(patente: String): String{
         // JSON CARGA PRUEBA
         var respuestaString = ""
         val Method_Name = "devuelveVehiculo"
-        val SOAP_ACTIONx = NAMESPACE + "/" + Method_Name
-        val request = SoapObject(NAMESPACE, Method_Name)
+        val SOAP_ACTIONx = "$NAMESPACE/$Method_Name"
+        val request = SoapObject(NAMESPACE + "/", Method_Name)
         request.addProperty("patente_veh", patente)
         val envelope = SoapSerializationEnvelope(SoapEnvelope.VER11)
       //  envelope.bodyOut = request
@@ -197,23 +190,24 @@ public class IngresoActivity : AppCompatActivity() {
             //  httptransport.setXmlVersionTag("<?xml version=\"1.0\" encoding=\"utf-8\"?>")
             httptransport.call(SOAP_ACTIONx, envelope)
 
-            val response = envelope.bodyIn as SoapObject
-            respuestaString = response.getProperty(0).toString()
-            //   cargaFaena()
+         //   val response = envelope.bodyIn as SoapObject
+          //  respuestaString = response.getProperty(0).toString()
+            val soapPrimitive = envelope.response
+            respuestaString = soapPrimitive.toString()
+
         } catch (e: Exception) {
             e.printStackTrace()
 
         }
-        Log.d("LOG_TAG", envelope.bodyOut.toString())
         Log.d("LOG_TAG", envelope.bodyIn.toString())
-        Log.d("LOG_TAG", patente.toString())
+        Log.d("RespuestaString", respuestaString)
         //-------------JSON--------------------------
 
        //    var objeto: JSONObject = JSONObject(respuestaString)
        // var json_array: JSONArray = JSONArray(faenitas) // objeto.optJSONArray("faenas")
 
 
-
+        return respuestaString
     }
 
 }
@@ -227,6 +221,7 @@ class doAsync(val handler: () -> Unit) : AsyncTask<Void, Void, Void>() {
         return null
     }
 }
+
 
  class Faena{
 

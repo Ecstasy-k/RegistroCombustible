@@ -107,8 +107,9 @@
         android:layout_centerHorizontal="true"
         android:ems="10"
         android:enabled="false"
-        android:inputType="textPersonName"
         android:hint="Vehículo"
+        android:inputType="textPersonName"
+        android:maxLength="10"
         tools:layout_editor_absoluteX="44dp"
         tools:layout_editor_absoluteY="288dp" />
 
