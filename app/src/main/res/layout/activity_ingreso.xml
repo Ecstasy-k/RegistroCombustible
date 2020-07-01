@@ -24,13 +24,12 @@
         android:id="@+id/et_valorgps"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/ibt_vehiculo"
         android:layout_alignLeft="@+id/et_odometro"
         android:layout_alignStart="@+id/et_odometro"
-        android:layout_marginBottom="24dp"
+        android:layout_below="@+id/et_odometro"
         android:ems="10"
-        android:inputType="textPersonName"
         android:hint="Valor GPS"
+        android:inputType="textPersonName"
         tools:layout_editor_absoluteX="37dp"
         tools:layout_editor_absoluteY="150dp" />
 
@@ -38,10 +37,9 @@
         android:id="@+id/ibt_vehiculo"
         android:layout_width="49dp"
         android:layout_height="47dp"
-        android:layout_above="@+id/ibt_chofer"
         android:layout_alignLeft="@+id/ibt_chofer"
         android:layout_alignStart="@+id/ibt_chofer"
-        android:layout_marginBottom="18dp"
+        android:layout_alignTop="@+id/et_vehiculo"
         app:srcCompat="?android:attr/actionModeSelectAllDrawable" />
 
     <EditText
@@ -50,11 +48,12 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/et_vehiculo"
         android:layout_alignStart="@+id/et_vehiculo"
-        android:layout_alignTop="@+id/ibt_chofer"
+        android:layout_below="@+id/ibt_vehiculo"
+        android:layout_marginTop="16dp"
         android:ems="10"
         android:enabled="false"
-        android:inputType="textPersonName"
         android:hint="Chofer"
+        android:inputType="textPersonName"
         tools:layout_editor_absoluteX="37dp"
         tools:layout_editor_absoluteY="351dp" />
 
@@ -75,13 +74,11 @@
         android:id="@+id/et_odometro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/et_valorgps"
-        android:layout_alignLeft="@+id/et_vehiculo"
-        android:layout_alignStart="@+id/et_vehiculo"
-        android:layout_marginBottom="14dp"
+        android:layout_below="@+id/et_combustible2"
+        android:layout_centerHorizontal="true"
         android:ems="10"
-        android:inputType="textPersonName"
         android:hint="Odómetro"
+        android:inputType="textPersonName"
         tools:layout_editor_absoluteX="37dp"
         tools:layout_editor_absoluteY="77dp" />
 
@@ -103,8 +100,9 @@
         android:id="@+id/et_vehiculo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/ibt_vehiculo"
-        android:layout_centerHorizontal="true"
+        android:layout_alignLeft="@+id/et_valorgps"
+        android:layout_alignStart="@+id/et_valorgps"
+        android:layout_centerVertical="true"
         android:ems="10"
         android:enabled="false"
         android:hint="Vehículo"
@@ -117,22 +115,20 @@
         android:id="@+id/ibt_chofer"
         android:layout_width="49dp"
         android:layout_height="47dp"
-        android:layout_above="@+id/dd_faena"
-        android:layout_marginBottom="12dp"
-        android:layout_marginLeft="11dp"
-        android:layout_marginStart="11dp"
-        android:layout_toEndOf="@+id/et_chofer"
-        android:layout_toRightOf="@+id/et_chofer"
+        android:layout_below="@+id/ibt_vehiculo"
+        android:layout_marginTop="17dp"
+        android:layout_toEndOf="@+id/textView"
+        android:layout_toRightOf="@+id/textView"
         app:srcCompat="?android:attr/actionModeSelectAllDrawable" />
 
     <Spinner
         android:id="@+id/dd_faena"
         android:layout_width="240dp"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/bt_cargar"
-        android:layout_alignLeft="@+id/et_chofer"
-        android:layout_alignStart="@+id/et_chofer"
-        android:layout_marginBottom="13dp"
+        android:layout_alignLeft="@+id/textView"
+        android:layout_alignStart="@+id/textView"
+        android:layout_below="@+id/tv_nombre_chofer"
+        android:layout_marginTop="22dp"
         android:background="@android:drawable/btn_dropdown"
         android:spinnerMode="dropdown" />
 
@@ -140,12 +136,27 @@
         android:id="@+id/bt_cargar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/et_chofer"
-        android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/et_chofer"
-        android:layout_marginBottom="32dp"
-        android:layout_marginEnd="50dp"
-        android:layout_marginRight="50dp"
+        android:layout_below="@+id/dd_faena"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="14dp"
         android:text="Cargar" />
+
+    <TextView
+        android:id="@+id/tv_nombre_chofer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/et_chofer"
+        android:layout_alignStart="@+id/et_chofer"
+        android:layout_below="@+id/et_chofer"
+        android:layout_marginLeft="11dp"
+        android:layout_marginStart="11dp"
+        android:text="Nombre Chofer" />
+
+    <TextView
+        android:id="@+id/tv_mensaje"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bt_cargar"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

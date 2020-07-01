@@ -43,11 +43,13 @@ class LectorActivity : AppCompatActivity() {
     val URL = "http://190.121.13.170:8787/ServicioRC.asmx"
     var tipo= ""
     var chofer= ""
+    var chofer_rut = ""
     var vehiculo = ""
     var combustible= ""
     var combustible2 = ""
     var valorGPS = ""
     var odometro = ""
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,6 +77,10 @@ class LectorActivity : AppCompatActivity() {
             if(type.getStringExtra("chofer") != null)
             {
                 this.chofer = type.getStringExtra("chofer")
+            }
+            if(type.getStringExtra("chofer_rut") != null)
+            {
+                this.chofer_rut = type.getStringExtra("chofer_rut")
             }
             if(type.getStringExtra("vehiculo") != null)
             {
@@ -162,6 +168,7 @@ class LectorActivity : AppCompatActivity() {
                     }
                     else if (tipo == "2")
                     {
+                        chofer_rut = token
                         token = DevuelveChofer(token)
                     }
 
@@ -183,6 +190,7 @@ class LectorActivity : AppCompatActivity() {
                                 val intent: Intent = Intent(this@LectorActivity, IngresoActivity::class.java)
                                 intent.putExtra("type", tipo)
                             intent.putExtra("valor", token)
+                            intent.putExtra("chofer_rut", chofer_rut)
                             intent.putExtra("combustible", combustible)
                             intent.putExtra("combustible2", combustible2)
                             intent.putExtra("odometro", odometro)
@@ -231,6 +239,7 @@ class LectorActivity : AppCompatActivity() {
 
 
 
+
     public fun DevuelveVehiculo(patente: String): String{
         // JSON CARGA PRUEBA
         var respuestaString = ""
@@ -258,8 +267,9 @@ class LectorActivity : AppCompatActivity() {
             e.printStackTrace()
 
         }
-        Log.d("LOG_TAG", envelope.bodyIn.toString())
-        Log.d("RespuestaString", respuestaString)
+        //VERIFICADORES
+   //     Log.d("LOG_TAG", envelope.bodyIn.toString())
+    //    Log.d("RespuestaString", respuestaString)
         //-------------JSON--------------------------
 
         //    var objeto: JSONObject = JSONObject(respuestaString)
@@ -268,7 +278,6 @@ class LectorActivity : AppCompatActivity() {
 
         return respuestaString
     }
-
 
     public fun DevuelveChofer(rut: String): String{
         // JSON CARGA PRUEBA
@@ -297,8 +306,9 @@ class LectorActivity : AppCompatActivity() {
             e.printStackTrace()
 
         }
-        Log.d("LOG_TAG", envelope.bodyIn.toString())
-        Log.d("RespuestaString", respuestaString)
+        //VERIFICADORES
+     //   Log.d("LOG_TAG", envelope.bodyIn.toString())
+     //   Log.d("RespuestaString", respuestaString)
         //-------------JSON--------------------------
 
         //    var objeto: JSONObject = JSONObject(respuestaString)
