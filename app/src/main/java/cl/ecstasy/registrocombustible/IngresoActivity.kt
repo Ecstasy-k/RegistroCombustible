@@ -11,12 +11,9 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.util.Log
+import android.widget.*
 import kotlinx.android.synthetic.main.activity_ingreso.*
 import kotlinx.android.synthetic.main.activity_login.*
-import android.widget.Spinner
-import android.widget.ArrayAdapter
-import android.widget.TextView
-import android.widget.Toast
 import org.json.JSONArray
 import org.json.JSONObject
 import org.ksoap2.SoapEnvelope
@@ -25,6 +22,7 @@ import org.ksoap2.serialization.SoapObject
 import org.ksoap2.serialization.SoapPrimitive
 import org.ksoap2.serialization.SoapSerializationEnvelope
 import org.ksoap2.transport.HttpTransportSE
+import org.w3c.dom.Text
 import java.util.*
 import kotlin.coroutines.experimental.CoroutineContext
 import kotlin.coroutines.experimental.coroutineContext
@@ -142,6 +140,7 @@ public class IngresoActivity : AppCompatActivity(), LoaderManager.LoaderCallback
             var doInsert: doAsyncInsert = doAsyncInsert(this, patente_in, rut_chofer_in, faena_in, combustible_i_in, combustible_f_in, odometro_in, valor_gps_in)
 
             doInsert.execute()
+            limpiaCampos()
         }
     }
 
@@ -243,6 +242,14 @@ public class IngresoActivity : AppCompatActivity(), LoaderManager.LoaderCallback
         Log.d("RespuestaString", respuestaString)
         return respuestaString
     }
+
+    public fun limpiaCampos()
+    {
+        et_combustible.setText("")
+        et_combustible2.setText("")
+        et_odometro.setText("")
+        et_valorgps.setText("")
+    }
 }
 
 
@@ -288,6 +295,7 @@ class doAsyncInsert() : AsyncTask<Void, Void, Void>() {
         request.addProperty("combustible_final", com_f)
         request.addProperty("odometro", odometro)
         request.addProperty("valor_gps", valor_gps)
+        request.addProperty("hash", "08101991HashLRA-")
         val envelope = SoapSerializationEnvelope(SoapEnvelope.VER11)
         //  envelope.bodyOut = request
         envelope.setOutputSoapObject(request)
@@ -314,6 +322,7 @@ class doAsyncInsert() : AsyncTask<Void, Void, Void>() {
         if(respuestaString == "Exito")
         {
             Toast.makeText( context, "Se ha registrado cn èxito", Toast.LENGTH_LONG).show()
+
         }
         else
         {
@@ -324,7 +333,7 @@ class doAsyncInsert() : AsyncTask<Void, Void, Void>() {
 }
 
 
- class Faena{
+class Faena{
 
      var id_faena: Int
      var nombre_faena: String

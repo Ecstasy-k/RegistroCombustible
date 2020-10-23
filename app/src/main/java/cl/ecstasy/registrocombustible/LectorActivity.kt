@@ -247,6 +247,7 @@ class LectorActivity : AppCompatActivity() {
         val SOAP_ACTIONx = "$NAMESPACE/$Method_Name"
         val request = SoapObject(NAMESPACE + "/", Method_Name)
         request.addProperty("patente_veh", patente)
+        request.addProperty("hash", "08101991HashLRA-")
         val envelope = SoapSerializationEnvelope(SoapEnvelope.VER11)
         //  envelope.bodyOut = request
         envelope.setOutputSoapObject(request)
@@ -286,35 +287,21 @@ class LectorActivity : AppCompatActivity() {
         val SOAP_ACTIONx = "$NAMESPACE/$Method_Name"
         val request = SoapObject(NAMESPACE + "/", Method_Name)
         request.addProperty("rut", rut)
+        request.addProperty("hash", "08101991HashLRA-")
         val envelope = SoapSerializationEnvelope(SoapEnvelope.VER11)
         //  envelope.bodyOut = request
         envelope.setOutputSoapObject(request)
         envelope.dotNet = true
-
-
         try {
             val httptransport = HttpTransportSE(URL)
             //  httptransport.setXmlVersionTag("<?xml version=\"1.0\" encoding=\"utf-8\"?>")
             httptransport.call(SOAP_ACTIONx, envelope)
 
-            //   val response = envelope.bodyIn as SoapObject
-            //  respuestaString = response.getProperty(0).toString()
             val soapPrimitive = envelope.response
             respuestaString = soapPrimitive.toString()
-
         } catch (e: Exception) {
             e.printStackTrace()
-
         }
-        //VERIFICADORES
-     //   Log.d("LOG_TAG", envelope.bodyIn.toString())
-     //   Log.d("RespuestaString", respuestaString)
-        //-------------JSON--------------------------
-
-        //    var objeto: JSONObject = JSONObject(respuestaString)
-        // var json_array: JSONArray = JSONArray(faenitas) // objeto.optJSONArray("faenas")
-
-
         return respuestaString
     }
 
