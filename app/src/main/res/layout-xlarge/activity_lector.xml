@@ -7,24 +7,27 @@
     android:padding="16dp">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_width="810dp"
+        android:layout_height="1105dp"
         android:layout_gravity="center_horizontal"
-        android:padding="8dp">
+        android:orientation="vertical"
+        android:padding="8dp"
+        tools:layout_editor_absoluteX="-9dp"
+        tools:layout_editor_absoluteY="16dp">
 
         <SurfaceView
             android:id="@+id/camera_view"
-            android:layout_width="640px"
-            android:layout_height="480px"
+            android:layout_width="778dp"
+            android:layout_height="953dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true" />
 
         <TextView
             android:id="@+id/tx_resultado"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Sin leer"
+            android:layout_height="35dp"
+            android:text="Escaneando..."
+            android:textSize="30sp"
             android:visibility="visible"
             tools:layout_editor_absoluteX="95dp"
             tools:layout_editor_absoluteY="324dp" />
